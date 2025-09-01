@@ -8,6 +8,7 @@ import { AddTaskButton } from './add-task-button';
 import { useLoading } from './loading-context';
 import { TaskMovement } from './task-movement';
 import { useTaskStore } from '@/lib/store';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import React from 'react';
 
 interface KanbanBoardContentProps {
@@ -17,12 +18,19 @@ interface KanbanBoardContentProps {
 export function KanbanBoardContent({ columns }: KanbanBoardContentProps) {
   const { isTaskLoading, movingTask, setMovingTask } = useLoading();
   const { columns: storeColumns, setColumns } = useTaskStore();
+  const [isInitializing, setIsInitializing] = React.useState(true);
 
   // Initialize store with server data if empty
   React.useEffect(() => {
     if (storeColumns.length === 0) {
       setColumns(columns);
     }
+    // Add a small delay to show the loading state smoothly
+    const timer = setTimeout(() => {
+      setIsInitializing(false);
+    }, 300);
+    
+    return () => clearTimeout(timer);
   }, [columns, storeColumns.length, setColumns]);
 
   // Use store columns if available, otherwise use server columns
@@ -56,17 +64,40 @@ export function KanbanBoardContent({ columns }: KanbanBoardContentProps) {
       )}
       <div className='flex items-center justify-between mb-6'>
         <div>
-          <h1 className='text-3xl font-bold'>Team Tasks Board</h1>
-          <p className='text-muted-foreground'>
+          <div className='flex items-center gap-3 mb-2'>
+            {isInitializing && (
+              <LoadingSpinner size='sm' className='text-muted-foreground' />
+            )}
+            <h1 className={`text-3xl font-bold transition-all duration-500 ${
+              isInitializing 
+                ? 'opacity-0 translate-y-2' 
+                : 'opacity-100 translate-y-0'
+            }`}>
+              Team Tasks Board
+            </h1>
+          </div>
+          <p className={`text-muted-foreground transition-all duration-500 delay-100 ${
+            isInitializing 
+              ? 'opacity-0 translate-y-2' 
+              : 'opacity-100 translate-y-0'
+          }`}>
             Manage your team&apos;s workflow
           </p>
         </div>
-        <div className='flex gap-2'>
+        <div className={`flex gap-2 transition-all duration-500 delay-200 ${
+          isInitializing 
+            ? 'opacity-0 translate-y-2' 
+            : 'opacity-100 translate-y-0'
+        }`}>
           <AddTaskButton columnId={displayColumns[0]?.id || 'todo'} />
         </div>
       </div>
 
-      <div className='grid grid-cols-1 md:grid-cols-3 gap-6 h-[calc(100vh-200px)]'>
+      <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 h-[calc(100vh-200px)] transition-all duration-500 delay-300 ${
+        isInitializing 
+          ? 'opacity-0 translate-y-4' 
+          : 'opacity-100 translate-y-0'
+      }`}>
         {displayColumns.map((column) => (
           <div key={column.id} className='flex flex-col'>
             {/* Column Header */}

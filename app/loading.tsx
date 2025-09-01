@@ -1,5 +1,6 @@
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Loader2 } from 'lucide-react';
 
 export default function Loading() {
   return (
@@ -7,7 +8,12 @@ export default function Loading() {
       {/* Header */}
       <header className='border-b'>
         <div className='container mx-auto px-4 py-4 flex items-center justify-between'>
-          <h1 className='text-2xl font-bold'>Team Tasks</h1>
+          <div className='flex items-center gap-3'>
+            <Loader2 className='h-6 w-6 animate-spin text-primary' />
+            <h1 className='text-2xl font-bold text-muted-foreground'>
+              Loading...
+            </h1>
+          </div>
           <Skeleton className='h-10 w-10' />
         </div>
       </header>
@@ -17,7 +23,10 @@ export default function Loading() {
         <div className='h-full p-6 bg-background/50'>
           <div className='flex items-center justify-between mb-6'>
             <div>
-              <Skeleton className='h-8 w-64 mb-2' />
+              <div className='flex items-center gap-3 mb-2'>
+                <Loader2 className='h-8 w-8 animate-spin text-primary' />
+                <Skeleton className='h-8 w-64' />
+              </div>
               <Skeleton className='h-4 w-48' />
             </div>
             <Skeleton className='h-10 w-24' />
