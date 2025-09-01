@@ -16,7 +16,8 @@ interface KanbanBoardContentProps {
 }
 
 export function KanbanBoardContent({ columns }: KanbanBoardContentProps) {
-  const { isTaskLoading, movingTask, setMovingTask } = useLoading();
+  const { isTaskLoading, movingTask, setMovingTask, setTaskLoading } =
+    useLoading();
   const { columns: storeColumns, setColumns } = useTaskStore();
   const [isInitializing, setIsInitializing] = React.useState(true);
 
@@ -29,7 +30,7 @@ export function KanbanBoardContent({ columns }: KanbanBoardContentProps) {
     const timer = setTimeout(() => {
       setIsInitializing(false);
     }, 300);
-    
+
     return () => clearTimeout(timer);
   }, [columns, storeColumns.length, setColumns]);
 
@@ -37,6 +38,10 @@ export function KanbanBoardContent({ columns }: KanbanBoardContentProps) {
   const displayColumns = storeColumns.length > 0 ? storeColumns : columns;
 
   const handleMovementComplete = () => {
+    // Clear both the moving task state and the individual task loading state
+    if (movingTask) {
+      setTaskLoading(movingTask.taskId, false);
+    }
     setMovingTask(null);
   };
 
@@ -68,36 +73,44 @@ export function KanbanBoardContent({ columns }: KanbanBoardContentProps) {
             {isInitializing && (
               <LoadingSpinner size='sm' className='text-muted-foreground' />
             )}
-            <h1 className={`text-3xl font-bold transition-all duration-500 ${
-              isInitializing 
-                ? 'opacity-0 translate-y-2' 
-                : 'opacity-100 translate-y-0'
-            }`}>
+            <h1
+              className={`text-3xl font-bold transition-all duration-500 ${
+                isInitializing
+                  ? 'opacity-0 translate-y-2'
+                  : 'opacity-100 translate-y-0'
+              }`}
+            >
               Team Tasks Board
             </h1>
           </div>
-          <p className={`text-muted-foreground transition-all duration-500 delay-100 ${
-            isInitializing 
-              ? 'opacity-0 translate-y-2' 
-              : 'opacity-100 translate-y-0'
-          }`}>
+          <p
+            className={`text-muted-foreground transition-all duration-500 delay-100 ${
+              isInitializing
+                ? 'opacity-0 translate-y-2'
+                : 'opacity-100 translate-y-0'
+            }`}
+          >
             Manage your team&apos;s workflow
           </p>
         </div>
-        <div className={`flex gap-2 transition-all duration-500 delay-200 ${
-          isInitializing 
-            ? 'opacity-0 translate-y-2' 
-            : 'opacity-100 translate-y-0'
-        }`}>
+        <div
+          className={`flex gap-2 transition-all duration-500 delay-200 ${
+            isInitializing
+              ? 'opacity-0 translate-y-2'
+              : 'opacity-100 translate-y-0'
+          }`}
+        >
           <AddTaskButton columnId={displayColumns[0]?.id || 'todo'} />
         </div>
       </div>
 
-      <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 h-[calc(100vh-200px)] transition-all duration-500 delay-300 ${
-        isInitializing 
-          ? 'opacity-0 translate-y-4' 
-          : 'opacity-100 translate-y-0'
-      }`}>
+      <div
+        className={`grid grid-cols-1 md:grid-cols-3 gap-6 h-[calc(100vh-200px)] transition-all duration-500 delay-300 ${
+          isInitializing
+            ? 'opacity-0 translate-y-4'
+            : 'opacity-100 translate-y-0'
+        }`}
+      >
         {displayColumns.map((column) => (
           <div key={column.id} className='flex flex-col'>
             {/* Column Header */}

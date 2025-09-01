@@ -45,7 +45,9 @@ export function TaskCardActions({
   const [isDeleting, setIsDeleting] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const { setTaskLoading, setMovingTask } = useLoading();
-  const removeTaskOptimistically = useTaskStore((state) => state.removeTaskOptimistically);
+  const removeTaskOptimistically = useTaskStore(
+    (state) => state.removeTaskOptimistically
+  );
 
   const handleEdit = () => {
     const dialogTask: TaskDialogTask = {
@@ -87,6 +89,7 @@ export function TaskCardActions({
     } catch (error) {
       console.error('Error starting task movement:', error);
       setMovingTask(null);
+      setTaskLoading(task.id, false);
     } finally {
       setIsMoving(false);
       // setTaskLoading(task.id, false); // This will be handled by TaskMovement's onComplete
@@ -118,10 +121,10 @@ export function TaskCardActions({
   const handleDeleteConfirm = async () => {
     setIsDeleting(true);
     setTaskLoading(task.id, true);
-    
+
     // Remove task optimistically from UI
     removeTaskOptimistically(task.id);
-    
+
     try {
       const result = await deleteTaskAction(task.id);
       if (result.success) {

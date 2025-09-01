@@ -111,10 +111,16 @@ export function TaskMovement({
         // Animation complete - now simulate dropping into destination column
         setIsLanding(true);
 
-        setTimeout(async () => {
-          // Apply optimistic update immediately
-          moveTaskOptimistically(task.id, fromColumnId, toColumnId);
+        // Apply optimistic update immediately
+        moveTaskOptimistically(task.id, fromColumnId, toColumnId);
 
+        // Start the landing animation
+        setTimeout(() => {
+          // Landing animation is just visual - no need to wait for it
+        }, 1000);
+
+        // Perform the database operation immediately
+        (async () => {
           try {
             const result = await moveTaskAction(
               task.id,
@@ -122,7 +128,7 @@ export function TaskMovement({
               fromColumnId
             );
             if (result.success) {
-              // Call onComplete immediately since UI is already updated
+              // Call onComplete immediately after the database operation completes
               onComplete();
             } else {
               // TODO: Revert optimistic update on error
@@ -132,7 +138,7 @@ export function TaskMovement({
             // TODO: Revert optimistic update on error
             onComplete();
           }
-        }, 1000); // Landing delay
+        })();
       }
     };
 
