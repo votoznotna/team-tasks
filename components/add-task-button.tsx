@@ -5,8 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { TaskDialog } from '@/components/task-dialog';
 import { createTaskAction } from '@/lib/actions';
-import { useRouter } from 'next/navigation';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { useTaskStore } from '@/lib/store';
+import { v4 as uuidv4 } from 'uuid';
 
 interface AddTaskButtonProps {
   columnId: string;
@@ -25,7 +26,7 @@ export function AddTaskButton({
 }: AddTaskButtonProps) {
   const [isTaskDialogOpen, setIsTaskDialogOpen] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
-  const router = useRouter();
+  const addTaskOptimistically = useTaskStore((state) => state.addTaskOptimistically);
 
   const handleTaskSubmit = async (data: {
     title: string;
@@ -35,17 +36,48 @@ export function AddTaskButton({
     dueDate?: string;
   }) => {
     setIsCreating(true);
+    
+    // Create optimistic task
+    const optimisticTask = {
+      id: uuidv4(), // Temporary ID
+      title: data.title,
+      description: data.description,
+      priority: data.priority,
+      assignee: data.assignee || null,
+      dueDate: data.dueDate ? new Date(data.dueDate) : null,
+      columnId: columnId,
+      order: 0,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    // Add task optimistically to UI
+    addTaskOptimistically(optimisticTask);
+    
     try {
-      // Add artificial delay to make loading state visible
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
       const result = await createTaskAction({
         ...data,
         columnId,
       });
+      
       if (result.success) {
-        router.refresh();
+        // Task created successfully, close dialog
+        setIsTaskDialogOpen(false);
+        // Refresh from server to get the real task ID and data
+        // This will replace our optimistic task with the real one
+        setTimeout(() => {
+          // Small delay to ensure server has processed the request
+          window.location.reload();
+        }, 100);
+      } else {
+        // If failed, we should revert the optimistic update
+        // For now, we'll just refresh to show the correct state
+        window.location.reload();
       }
+    } catch (error) {
+      console.error('Error creating task:', error);
+      // Revert optimistic update on error
+      window.location.reload();
     } finally {
       setIsCreating(false);
     }

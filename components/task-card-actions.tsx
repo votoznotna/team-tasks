@@ -14,17 +14,16 @@ import { type Task, type Column } from '@/lib/db/schema';
 import { TaskDialog } from '@/components/task-dialog';
 import { DeleteTaskDialog } from '@/components/delete-task-dialog';
 import { updateTaskAction, deleteTaskAction } from '@/lib/actions';
-import { useRouter } from 'next/navigation';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { useLoading } from './loading-context';
+import { useTaskStore } from '@/lib/store';
 
-// Interface for TaskDialog compatibility
 interface TaskDialogTask {
   id: string;
   title: string;
   description: string;
+  assignee: string;
   priority: 'low' | 'medium' | 'high';
-  assignee?: string;
   dueDate?: string;
 }
 
@@ -45,8 +44,8 @@ export function TaskCardActions({
   const [isMoving, setIsMoving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
-  const router = useRouter();
   const { setTaskLoading, setMovingTask } = useLoading();
+  const removeTaskOptimistically = useTaskStore((state) => state.removeTaskOptimistically);
 
   const handleEdit = () => {
     const dialogTask: TaskDialogTask = {
@@ -54,7 +53,7 @@ export function TaskCardActions({
       title: task.title,
       description: task.description,
       priority: task.priority,
-      assignee: task.assignee || undefined,
+      assignee: task.assignee || '',
       dueDate: task.dueDate
         ? task.dueDate.toISOString().split('T')[0]
         : undefined,
@@ -90,7 +89,7 @@ export function TaskCardActions({
       setMovingTask(null);
     } finally {
       setIsMoving(false);
-      setTaskLoading(task.id, false);
+      // setTaskLoading(task.id, false); // This will be handled by TaskMovement's onComplete
     }
   };
 
@@ -104,12 +103,11 @@ export function TaskCardActions({
     setIsUpdating(true);
     setTaskLoading(task.id, true);
     try {
-      // Add artificial delay to make loading state visible
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
       const result = await updateTaskAction(task.id, data);
       if (result.success) {
-        router.refresh();
+        // Close dialog and refresh to show updated data
+        setIsTaskDialogOpen(false);
+        window.location.reload();
       }
     } finally {
       setIsUpdating(false);
@@ -120,14 +118,27 @@ export function TaskCardActions({
   const handleDeleteConfirm = async () => {
     setIsDeleting(true);
     setTaskLoading(task.id, true);
+    
+    // Remove task optimistically from UI
+    removeTaskOptimistically(task.id);
+    
     try {
-      // Add artificial delay to make loading state visible
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
       const result = await deleteTaskAction(task.id);
       if (result.success) {
-        router.refresh();
+        // Task deleted successfully, close dialog
+        setIsDeleteDialogOpen(false);
+        // Small delay to ensure server has processed the request
+        setTimeout(() => {
+          window.location.reload();
+        }, 100);
+      } else {
+        // If failed, revert the optimistic update
+        window.location.reload();
       }
+    } catch (error) {
+      console.error('Error deleting task:', error);
+      // Revert optimistic update on error
+      window.location.reload();
     } finally {
       setIsDeleting(false);
       setTaskLoading(task.id, false);
