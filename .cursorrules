@@ -1,0 +1,273 @@
+# Team Tasks Project - Cursor Rules
+
+## Project Overview
+
+- This is a Next.js 15 project using React 19
+- The project is using Tailwind CSS v4 for styling
+- The project is using Shadcn UI for components. Do everything using shadcn whenever possible
+- It's a team task management application with kanban board functionality
+- Features professional task movement animations with optimistic updates
+
+## Development Rules
+
+- Every single time we need to run a shadcn command, use `npx shadcn@latest`
+- It's Next.js so use Server Components when possible
+- Use server actions when possible
+- Use Next.js 15 features and best practices
+- Use TypeScript for type safety
+- Follow the established code style (single quotes, consistent formatting)
+- Use Zustand for client-side state management
+- Implement optimistic updates for immediate UI feedback
+
+## Project History & Accomplishments
+
+### 1. Initial Setup & Configuration
+
+- ✅ Set up Next.js 15 project with React 19
+- ✅ Configured Tailwind CSS v4
+- ✅ Initialized shadcn/ui with proper configuration
+- ✅ Set up TypeScript with proper types
+- ✅ Configured ESLint and project structure
+
+### 2. Theme System Implementation
+
+- ✅ Installed and configured `next-themes` for light/dark mode support
+- ✅ Created `ThemeProvider` component wrapper
+- ✅ Built `ThemeToggle` component with dropdown menu
+- ✅ Integrated theme system into root layout
+- ✅ Added proper CSS variables for theme switching
+- ✅ Implemented system theme detection
+
+### 3. Core UI Components Installation
+
+- ✅ Button component with all variants
+- ✅ Card component for content containers
+- ✅ Dialog component for modals
+- ✅ Form components with validation support
+- ✅ Dropdown Menu for navigation
+- ✅ Badge component for status indicators
+- ✅ Avatar component for user profiles
+- ✅ Input component for form fields
+- ✅ Select component for dropdowns
+- ✅ Textarea component for multi-line input
+- ✅ Label component for form accessibility
+- ✅ LoadingSpinner component for professional loading states
+
+### 4. Kanban Board Implementation
+
+- ✅ Created comprehensive kanban board layout
+- ✅ Implemented three-column structure (Todo, In Progress, Done)
+- ✅ Built responsive grid layout with proper spacing
+- ✅ Added task cards with professional styling
+- ✅ Implemented task movement between columns
+- ✅ Added column headers with task counts
+- ✅ Created empty state handling for columns
+
+### 5. Task Management System
+
+- ✅ Designed Task interface with proper TypeScript types
+- ✅ Implemented task creation functionality
+- ✅ Built task editing capabilities
+- ✅ Added task deletion with confirmation
+- ✅ Created task movement between columns
+- ✅ Implemented priority system (Low, Medium, High)
+- ✅ Added assignee management with avatar support
+- ✅ Built due date functionality
+
+### 6. Form System & Validation
+
+- ✅ Implemented React Hook Form for form management
+- ✅ Added Zod schema validation for all forms
+- ✅ Created comprehensive form validation rules
+- ✅ Built professional form UI with proper error handling
+- ✅ Added form descriptions and helpful text
+- ✅ Implemented proper form state management
+
+### 7. Dialog System
+
+- ✅ Created `TaskDialog` component for task creation/editing
+- ✅ Built `DeleteTaskDialog` component for safe deletion
+- ✅ Implemented proper dialog state management
+- ✅ Added confirmation flows for destructive actions
+- ✅ Built professional dialog UI with proper styling
+
+### 8. Professional UI/UX Features
+
+- ✅ Implemented hover effects and transitions
+- ✅ Added proper loading states and feedback
+- ✅ Built responsive design for all screen sizes
+- ✅ Created accessible form components
+- ✅ Added proper keyboard navigation
+- ✅ Implemented professional color schemes
+- ✅ Built consistent spacing and typography
+
+### 9. Database Setup & Integration
+
+- ✅ Set up PostgreSQL database with Docker Compose
+- ✅ Configured Drizzle ORM for database operations
+- ✅ Created database schema with columns and tasks tables
+- ✅ Implemented database migrations and seeding
+- ✅ Added proper environment configuration
+- ✅ Set up Drizzle Studio for database management
+
+### 10. Data Management & State Management
+
+- ✅ Implemented Zustand for client-side state management
+- ✅ Created optimistic updates for immediate UI feedback
+- ✅ Built efficient state update functions
+- ✅ Added proper error handling
+- ✅ Implemented data persistence with PostgreSQL
+- ✅ Created LoadingContext for cross-component loading state management
+
+### 11. Server Actions & Next.js 15 Architecture
+
+- ✅ Implemented server actions for all database operations
+- ✅ Created server components for data display
+- ✅ Built client components for interactive features
+- ✅ Used Next.js 15 server actions with revalidation
+- ✅ Separated concerns between server and client components
+- ✅ Optimized component architecture with proper imports
+- ✅ Removed all unused dependencies and imports
+- ✅ Fixed TypeScript type safety issues
+- ✅ Resolved ESLint warnings and errors
+- ✅ Fixed database duplicate columns issue
+- ✅ Ensured clean 3-column Kanban layout (Todo, In Progress, Done)
+
+### 12. Professional Task Movement System
+
+- ✅ Implemented smooth task movement animations with `requestAnimationFrame`
+- ✅ Created professional progress bar with percentage display
+- ✅ Added floating task card during movement
+- ✅ Implemented landing phase with green highlighting
+- ✅ Built destination column highlighting during movement
+- ✅ Added optimistic updates for immediate UI feedback
+- ✅ Created robust animation cleanup mechanisms
+- ✅ Implemented fallback timeouts to prevent stuck states
+- ✅ Added visual feedback with backdrop blur and overlays
+- ✅ Built professional loading states with LoadingSpinner component
+- ✅ Created smooth transitions and professional animations
+- ✅ Implemented proper error handling and recovery
+- ✅ Added comprehensive state management with Zustand
+- ✅ Built cross-component loading state coordination
+- ✅ Created production-ready, clean codebase
+
+### 13. Code Quality & Production Readiness
+
+- ✅ Removed all debug console.log statements
+- ✅ Cleaned up unused dependencies and imports
+- ✅ Fixed all ESLint warnings and TypeScript errors
+- ✅ Implemented proper error boundaries and fallbacks
+- ✅ Added comprehensive loading states and user feedback
+- ✅ Built responsive and accessible UI components
+- ✅ Created professional animations and transitions
+- ✅ Implemented robust state management patterns
+- ✅ Added proper cleanup mechanisms for all components
+- ✅ Built production-ready, optimized codebase
+
+## Current Project Structure
+
+```
+├── app/
+│   ├── globals.css          # Global styles with theme variables and debug overlay hiding
+│   ├── layout.tsx           # Root layout with theme provider
+│   ├── loading.tsx          # Loading component with skeleton UI
+│   └── page.tsx             # Main kanban board page
+├── components/
+│   ├── ui/                  # shadcn/ui components
+│   │   ├── avatar.tsx
+│   │   ├── badge.tsx
+│   │   ├── button.tsx
+│   │   ├── card.tsx
+│   │   ├── dialog.tsx
+│   │   ├── dropdown-menu.tsx
+│   │   ├── form.tsx
+│   │   ├── input.tsx
+│   │   ├── label.tsx
+│   │   ├── loading-spinner.tsx # Professional loading spinner
+│   │   ├── select.tsx
+│   │   ├── skeleton.tsx
+│   │   └── textarea.tsx
+│   ├── add-task-button.tsx  # Client component for adding tasks
+│   ├── kanban-board.tsx     # Server component for kanban board
+│   ├── kanban-board-content.tsx # Client component for kanban board content
+│   ├── loading-context.tsx  # Loading state management context
+│   ├── task-card.tsx        # Server component for task display
+│   ├── task-card-actions.tsx # Client component for task actions
+│   ├── task-dialog.tsx      # Task creation/editing dialog
+│   ├── task-movement.tsx    # Smooth task movement animation component
+│   ├── delete-task-dialog.tsx # Task deletion confirmation
+│   ├── theme-provider.tsx   # Theme provider wrapper
+│   └── theme-toggle.tsx     # Theme toggle component
+├── lib/
+│   ├── actions.ts           # Server actions for database operations
+│   ├── store.ts             # Zustand store for client-side state management
+│   ├── db/                  # Database configuration
+│   │   ├── index.ts         # Database connection
+│   │   ├── schema.ts        # Database schema
+│   │   ├── queries.ts       # Database queries
+│   │   ├── seed.ts          # Database seeding
+│   │   └── migrations/      # Database migrations
+│   └── utils.ts             # Utility functions
+├── docker-compose.yml       # PostgreSQL database setup
+├── drizzle.config.ts        # Drizzle ORM configuration
+└── DATABASE.md              # Database documentation
+```
+
+## Key Technologies Used
+
+- **Framework**: Next.js 15 with App Router
+- **UI Library**: shadcn/ui components
+- **Styling**: Tailwind CSS v4
+- **Theme**: next-themes
+- **Forms**: React Hook Form + Zod validation
+- **Icons**: Lucide React
+- **Language**: TypeScript
+- **State Management**: Zustand for client-side + Server Actions for database
+- **Database**: PostgreSQL with Drizzle ORM
+- **Database GUI**: Drizzle Studio (https://local.drizzle.studio)
+- **Architecture**: Server Components + Client Components
+- **Data Fetching**: Server-side with Suspense
+- **Build Tool**: Turbopack (Next.js 15)
+- **Animations**: requestAnimationFrame for smooth task movement
+
+## Next Steps & Future Enhancements
+
+- [ ] Add drag-and-drop functionality for tasks
+- [ ] Add user authentication and authorization
+- [ ] Create team member management system
+- [ ] Add task filtering and search functionality
+- [ ] Implement real-time collaboration features
+- [ ] Add task templates and bulk operations
+- [ ] Create reporting and analytics dashboard
+- [ ] Add email notifications and reminders
+- [ ] Implement task dependencies and subtasks
+- [ ] Add column management (create, edit, delete columns)
+- [ ] Implement task ordering and sorting
+- [ ] Add task comments and activity log
+- [ ] Create task export functionality
+- [ ] Add keyboard shortcuts for power users
+- [ ] Implement optimistic updates for task creation and deletion
+- [ ] Add undo/redo functionality for task operations
+
+## Development Notes
+
+- All components follow shadcn/ui design patterns
+- Theme system supports light, dark, and system preferences
+- Form validation is comprehensive and user-friendly
+- Code is fully typed with TypeScript
+- UI is responsive and accessible
+- Professional styling with consistent design language
+- Database is accessible via Drizzle Studio at https://local.drizzle.studio
+- Use `npm run db:studio` to launch database GUI
+- Database migrations and seeding are automated via npm scripts
+- Server actions handle all database mutations with automatic revalidation
+- Server components optimize performance and reduce client bundle size
+- Client components handle only interactive features
+- Zustand provides efficient client-side state management
+- Optimistic updates provide immediate UI feedback
+- Professional task movement animations with smooth progress bars
+- Visual loading overlays with backdrop blur for enhanced UX
+- Cross-component loading state management with React Context
+- Robust cleanup mechanisms prevent stuck states
+- Production-ready codebase with no debug artifacts
+- Clean build process with no warnings or errors

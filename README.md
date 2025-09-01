@@ -1,36 +1,244 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Team Tasks - Professional Kanban Board Application
 
-## Getting Started
+A modern, professional team task management application built with Next.js 15, React 19, and Tailwind CSS v4. Features a beautiful Kanban board with smooth animations, optimistic updates, and real-time task management.
 
-First, run the development server:
+![Team Tasks Board](https://img.shields.io/badge/Next.js-15.5.0-black?style=for-the-badge&logo=next.js)
+![React](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-38B2AC?style=for-the-badge&logo=tailwind-css)
+
+## ✨ Features
+
+### 🎯 **Core Functionality**
+
+- **Kanban Board**: Three-column layout (Todo, In Progress, Done)
+- **Task Management**: Create, edit, delete, and move tasks
+- **Priority System**: Low, Medium, High priority levels
+- **Assignee Management**: Assign tasks to team members
+- **Due Dates**: Track task deadlines
+
+### 🎨 **Professional UI/UX**
+
+- **Modern Design**: Clean, professional interface with Tailwind CSS v4
+- **Theme Support**: Light, dark, and system theme modes
+- **Responsive Layout**: Works perfectly on all device sizes
+- **Smooth Animations**: Professional task movement with progress bars
+- **Loading States**: Visual feedback for all operations
+
+### ⚡ **Advanced Features**
+
+- **Optimistic Updates**: Immediate UI feedback with Zustand
+- **Smooth Animations**: Professional task movement animations
+- **Real-time Updates**: Instant task movement between columns
+- **Professional Loading**: Visual overlays and progress indicators
+
+### 🗄️ **Backend & Database**
+
+- **PostgreSQL**: Robust database with Docker setup
+- **Drizzle ORM**: Type-safe database operations
+- **Server Actions**: Next.js 15 server-side mutations
+- **Automatic Revalidation**: Real-time data updates
+
+## 🛠️ Tech Stack
+
+- **Frontend**: Next.js 15, React 19, TypeScript
+- **Styling**: Tailwind CSS v4, shadcn/ui components
+- **State Management**: Zustand for client-side, Server Actions for database
+- **Database**: PostgreSQL with Drizzle ORM
+- **Development**: ESLint, Turbopack, Docker
+- **Theme**: next-themes for light/dark mode
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js 18+
+- Docker and Docker Compose
+- Git
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/yourusername/team-tasks.git
+cd team-tasks
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Set Up Environment
+
+```bash
+cp .env.example .env.local
+# Edit .env.local with your database credentials
+```
+
+### 4. Start Database
+
+```bash
+npm run db:start
+```
+
+### 5. Run Database Migrations
+
+```bash
+npm run db:migrate
+npm run db:seed
+```
+
+### 6. Start Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit [http://localhost:3000](http://localhost:3000) to see your application!
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📁 Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+├── app/                    # Next.js 15 App Router
+│   ├── globals.css        # Global styles and theme variables
+│   ├── layout.tsx         # Root layout with theme provider
+│   └── page.tsx           # Main kanban board page
+├── components/            # React components
+│   ├── ui/               # shadcn/ui components
+│   ├── kanban-board.tsx  # Main board component
+│   ├── task-card.tsx     # Individual task display
+│   └── task-movement.tsx # Smooth animation component
+├── lib/                  # Utilities and configurations
+│   ├── actions.ts        # Server actions
+│   ├── store.ts          # Zustand state management
+│   └── db/               # Database configuration
+└── docker-compose.yml    # PostgreSQL setup
+```
 
-## Learn More
+## 🎮 Usage
 
-To learn more about Next.js, take a look at the following resources:
+### Creating Tasks
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Click the "Add Task" button in any column
+2. Fill in task details (title, description, assignee, priority, due date)
+3. Click "Create Task" to add it to the board
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Moving Tasks
 
-## Deploy on Vercel
+1. Click the ellipsis menu (⋯) on any task card
+2. Select "Move to [Column Name]" from the dropdown
+3. Watch the smooth animation as the task moves between columns
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Editing Tasks
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Click the ellipsis menu (⋯) on any task card
+2. Select "Edit Task" from the dropdown
+3. Modify task details and save changes
+
+### Deleting Tasks
+
+1. Click the ellipsis menu (⋯) on any task card
+2. Select "Delete Task" from the dropdown
+3. Confirm deletion in the confirmation dialog
+
+## 🗄️ Database Management
+
+### Start Database
+
+```bash
+npm run db:start
+```
+
+### Stop Database
+
+```bash
+npm run db:stop
+```
+
+### View Database (Drizzle Studio)
+
+```bash
+npm run db:studio
+```
+
+Visit [https://local.drizzle.studio](https://local.drizzle.studio) to manage your data.
+
+### Run Migrations
+
+```bash
+npm run db:migrate
+```
+
+### Seed Database
+
+```bash
+npm run db:seed
+```
+
+## 🧪 Development
+
+### Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+- `npm run db:*` - Database management commands
+
+### Code Quality
+
+- **ESLint**: Configured for Next.js and TypeScript
+- **TypeScript**: Strict type checking enabled
+- **Prettier**: Consistent code formatting
+- **Husky**: Git hooks for code quality
+
+## 🌟 Key Features Explained
+
+### Optimistic Updates
+
+Tasks move instantly in the UI while database updates happen in the background, providing immediate visual feedback.
+
+### Smooth Animations
+
+Professional task movement with progress bars, floating cards, and destination highlighting using `requestAnimationFrame`.
+
+### State Management
+
+- **Zustand**: Client-side state for immediate UI updates
+- **Server Actions**: Database operations with automatic revalidation
+- **Loading Context**: Cross-component loading state coordination
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [Next.js](https://nextjs.org/) - React framework
+- [shadcn/ui](https://ui.shadcn.com/) - Beautiful UI components
+- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
+- [Drizzle ORM](https://orm.drizzle.team/) - Type-safe database toolkit
+- [Zustand](https://github.com/pmndrs/zustand) - State management
+
+## 📞 Support
+
+If you have any questions or need help:
+
+- Create an [Issue](https://github.com/yourusername/team-tasks/issues)
+- Check the [Documentation](https://github.com/yourusername/team-tasks/wiki)
+- Contact: your.email@example.com
+
+---
+
+**Made with ❤️ by [Your Name]**
+
+_Built for modern teams who deserve better task management_
