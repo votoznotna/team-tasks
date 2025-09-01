@@ -2,6 +2,10 @@
 
 A modern, professional team task management application built with Next.js 15, React 19, and Tailwind CSS v4. Features a beautiful Kanban board with smooth animations, optimistic updates, and real-time task management.
 
+![Team Tasks Demo](demo_team_tasks.gif)
+
+_Watch the smooth task management experience in action!_
+
 ![Team Tasks Board](https://img.shields.io/badge/Next.js-15.5.0-black?style=for-the-badge&logo=next.js)
 ![React](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)
