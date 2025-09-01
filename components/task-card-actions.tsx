@@ -48,6 +48,18 @@ export function TaskCardActions({
   const removeTaskOptimistically = useTaskStore(
     (state) => state.removeTaskOptimistically
   );
+  const updateTaskWithServerData = useTaskStore(
+    (state) => state.updateTaskWithServerData
+  );
+  const updateTaskOptimistically = useTaskStore(
+    (state) => state.updateTaskOptimistically
+  );
+  const revertOptimisticUpdate = useTaskStore(
+    (state) => state.revertOptimisticUpdate
+  );
+  const revertOptimisticDelete = useTaskStore(
+    (state) => state.revertOptimisticDelete
+  );
 
   const handleEdit = () => {
     const dialogTask: TaskDialogTask = {
@@ -105,13 +117,37 @@ export function TaskCardActions({
   }) => {
     setIsUpdating(true);
     setTaskLoading(task.id, true);
+    
+    // Store original data for potential revert
+    const originalData = {
+      title: task.title,
+      description: task.description,
+      assignee: task.assignee || '',
+      priority: task.priority,
+      dueDate: task.dueDate,
+    };
+    
+    // Apply optimistic update immediately
+    updateTaskOptimistically(task.id, {
+      ...data,
+      dueDate: data.dueDate ? new Date(data.dueDate) : null,
+    });
+    
     try {
       const result = await updateTaskAction(task.id, data);
-      if (result.success) {
-        // Close dialog and refresh to show updated data
+      if (result.success && result.task) {
+        // Task updated successfully, update with server data
+        updateTaskWithServerData(task.id, result.task);
         setIsTaskDialogOpen(false);
-        window.location.reload();
+      } else {
+        // If failed, revert the optimistic update
+        revertOptimisticUpdate(task.id, originalData);
+        console.error('Failed to update task:', result.error);
       }
+    } catch (error) {
+      // Revert optimistic update on error
+      revertOptimisticUpdate(task.id, originalData);
+      console.error('Error updating task:', error);
     } finally {
       setIsUpdating(false);
       setTaskLoading(task.id, false);
@@ -122,6 +158,9 @@ export function TaskCardActions({
     setIsDeleting(true);
     setTaskLoading(task.id, true);
 
+    // Store original task for potential revert
+    const originalTask = { ...task };
+
     // Remove task optimistically from UI
     removeTaskOptimistically(task.id);
 
@@ -130,18 +169,16 @@ export function TaskCardActions({
       if (result.success) {
         // Task deleted successfully, close dialog
         setIsDeleteDialogOpen(false);
-        // Small delay to ensure server has processed the request
-        setTimeout(() => {
-          window.location.reload();
-        }, 100);
+        // No need to reload - optimistic update already handled the UI
       } else {
         // If failed, revert the optimistic update
-        window.location.reload();
+        revertOptimisticDelete(task.id, originalTask);
+        console.error('Failed to delete task:', result.error);
       }
     } catch (error) {
       console.error('Error deleting task:', error);
       // Revert optimistic update on error
-      window.location.reload();
+      revertOptimisticDelete(task.id, originalTask);
     } finally {
       setIsDeleting(false);
       setTaskLoading(task.id, false);

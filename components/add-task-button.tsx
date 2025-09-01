@@ -27,6 +27,8 @@ export function AddTaskButton({
   const [isTaskDialogOpen, setIsTaskDialogOpen] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
   const addTaskOptimistically = useTaskStore((state) => state.addTaskOptimistically);
+  const replaceOptimisticTask = useTaskStore((state) => state.replaceOptimisticTask);
+  const revertOptimisticAdd = useTaskStore((state) => state.revertOptimisticAdd);
 
   const handleTaskSubmit = async (data: {
     title: string;
@@ -37,9 +39,10 @@ export function AddTaskButton({
   }) => {
     setIsCreating(true);
     
-    // Create optimistic task
+    // Create optimistic task with temporary ID
+    const optimisticId = uuidv4();
     const optimisticTask = {
-      id: uuidv4(), // Temporary ID
+      id: optimisticId,
       title: data.title,
       description: data.description,
       priority: data.priority,
@@ -60,24 +63,19 @@ export function AddTaskButton({
         columnId,
       });
       
-      if (result.success) {
-        // Task created successfully, close dialog
+      if (result.success && result.task) {
+        // Task created successfully, replace optimistic task with real data
+        replaceOptimisticTask(optimisticId, result.task);
         setIsTaskDialogOpen(false);
-        // Refresh from server to get the real task ID and data
-        // This will replace our optimistic task with the real one
-        setTimeout(() => {
-          // Small delay to ensure server has processed the request
-          window.location.reload();
-        }, 100);
       } else {
-        // If failed, we should revert the optimistic update
-        // For now, we'll just refresh to show the correct state
-        window.location.reload();
+        // If failed, remove the optimistic task
+        revertOptimisticAdd(optimisticId);
+        console.error('Failed to create task:', result.error);
       }
     } catch (error) {
       console.error('Error creating task:', error);
       // Revert optimistic update on error
-      window.location.reload();
+      revertOptimisticAdd(optimisticId);
     } finally {
       setIsCreating(false);
     }

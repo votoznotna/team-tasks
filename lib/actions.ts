@@ -1,6 +1,5 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
 import { createTask, updateTask, deleteTask, moveTask } from '@/lib/db/queries';
 import type { NewTask } from '@/lib/db/schema';
 
@@ -23,9 +22,10 @@ export async function createTaskAction(data: {
       order: 0,
     };
 
-    await createTask(newTask);
-    revalidatePath('/');
-    return { success: true };
+    const createdTask = await createTask(newTask);
+    // Remove revalidatePath to avoid page refresh
+    // return { success: true, task: createdTask };
+    return { success: true, task: createdTask };
   } catch (error) {
     console.error('Error creating task:', error);
     return { success: false, error: 'Failed to create task' };
@@ -43,15 +43,15 @@ export async function updateTaskAction(
   }
 ) {
   try {
-    await updateTask(taskId, {
+    const updatedTask = await updateTask(taskId, {
       title: data.title,
       description: data.description,
       priority: data.priority,
       assignee: data.assignee || null,
       dueDate: data.dueDate ? new Date(data.dueDate) : null,
     });
-    revalidatePath('/');
-    return { success: true };
+    // Remove revalidatePath to avoid page refresh
+    return { success: true, task: updatedTask };
   } catch (error) {
     console.error('Error updating task:', error);
     return { success: false, error: 'Failed to update task' };
@@ -61,7 +61,7 @@ export async function updateTaskAction(
 export async function deleteTaskAction(taskId: string) {
   try {
     await deleteTask(taskId);
-    revalidatePath('/');
+    // Remove revalidatePath to avoid page refresh
     return { success: true };
   } catch (error) {
     console.error('Error deleting task:', error);
@@ -82,7 +82,7 @@ export async function moveTaskAction(
     }
 
     await moveTask(taskId, newColumnId, newOrder);
-    revalidatePath('/');
+    // Remove revalidatePath to avoid page refresh
     return { success: true };
   } catch (error) {
     console.error('Error moving task:', error);
