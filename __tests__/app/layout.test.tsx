@@ -8,7 +8,7 @@ jest.mock('../../components/theme-provider', () => ({
     ...props
   }: {
     children: React.ReactNode;
-    [key: string]: any;
+    [key: string]: unknown;
   }) => (
     <div data-testid='theme-provider' data-props={JSON.stringify(props)}>
       {children}
@@ -35,8 +35,8 @@ describe('RootLayout Component', () => {
   let RootLayout: React.ComponentType<{ children: React.ReactNode }>;
 
   beforeAll(async () => {
-    const module = await import('../../app/layout');
-    RootLayout = module.default;
+    const layoutModule = await import('../../app/layout');
+    RootLayout = layoutModule.default;
   });
 
   it('should render without crashing', () => {
@@ -156,22 +156,22 @@ describe('RootLayout Component', () => {
 
 describe('Layout Metadata', () => {
   it('should export metadata with correct values', async () => {
-    const module = await import('../../app/layout');
+    const layoutModule = await import('../../app/layout');
 
-    expect(module.metadata).toBeDefined();
-    expect(module.metadata.title).toBe('Team Tasks');
-    expect(module.metadata.description).toBe(
+    expect(layoutModule.metadata).toBeDefined();
+    expect(layoutModule.metadata.title).toBe('Team Tasks');
+    expect(layoutModule.metadata.description).toBe(
       'A modern team task management application'
     );
   });
 
   it('should have metadata with proper structure', async () => {
-    const module = await import('../../app/layout');
+    const layoutModule = await import('../../app/layout');
 
-    expect(typeof module.metadata.title).toBe('string');
-    expect(typeof module.metadata.description).toBe('string');
-    expect(module.metadata.title.length).toBeGreaterThan(0);
-    expect(module.metadata.description.length).toBeGreaterThan(0);
+    expect(typeof layoutModule.metadata.title).toBe('string');
+    expect(typeof layoutModule.metadata.description).toBe('string');
+    expect(layoutModule.metadata.title.length).toBeGreaterThan(0);
+    expect(layoutModule.metadata.description.length).toBeGreaterThan(0);
   });
 });
 
