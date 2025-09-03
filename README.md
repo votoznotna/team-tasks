@@ -51,6 +51,7 @@ _Watch the smooth task management experience in action!_
 - **State Management**: Zustand for client-side, Server Actions for database
 - **Database**: PostgreSQL with Drizzle ORM
 - **Development**: ESLint, Turbopack, Docker
+- **Testing**: Jest, Testing Library, TypeScript testing
 - **Theme**: next-themes for light/dark mode
 
 ## 🚀 Quick Start
@@ -120,6 +121,12 @@ Visit [http://localhost:3000](http://localhost:3000) to see your application!
 │   ├── actions.ts        # Server actions
 │   ├── store.ts          # Zustand state management
 │   └── db/               # Database configuration
+├── __tests__/            # Comprehensive test suite
+│   ├── app/              # App-level component tests
+│   ├── components/       # Component-specific tests
+│   └── utils/            # Test utilities and helpers
+├── jest.config.js        # Jest configuration
+├── jest.setup.js         # Jest setup and global mocks
 └── docker-compose.yml    # PostgreSQL setup
 ```
 
@@ -193,6 +200,10 @@ npm run db:seed
 - `npm run start` - Start production server
 - `npm run lint` - Run ESLint
 - `npm run db:*` - Database management commands
+- `npm test` - Run unit tests
+- `npm run test:watch` - Run tests in watch mode
+- `npm run test:coverage` - Run tests with coverage report
+- `npm run test:ci` - Run tests for CI/CD pipeline
 
 ### Code Quality
 
@@ -200,6 +211,17 @@ npm run db:seed
 - **TypeScript**: Strict type checking enabled
 - **Prettier**: Consistent code formatting
 - **Husky**: Git hooks for code quality
+
+### Testing Infrastructure
+
+- **Jest**: Modern JavaScript testing framework with TypeScript support
+- **Testing Library**: React component testing utilities
+- **Comprehensive Coverage**: Full test coverage for all major components
+- **Smart Mocking**: Advanced mocking system for Next.js, React, and external dependencies
+- **Professional Patterns**: Production-ready test patterns with proper cleanup and isolation
+- **Console Filtering**: Intelligent error/warning filtering to reduce test noise
+- **Provider Wrappers**: Custom test utilities for consistent component rendering
+- **Type Safety**: Full TypeScript support in tests with proper type checking
 
 ## 🌟 Key Features Explained
 
@@ -231,6 +253,15 @@ Professional task movement with progress bars, floating cards, and destination h
 - **Optimized Loading States**: Immediate cleanup after database operations
 - **Enhanced Animation Timing**: Separated visual effects from state management
 - **Robust Error Handling**: Better recovery from failed operations
+
+### 🧪 Comprehensive Testing Environment
+
+- **Full Test Coverage**: Complete unit test coverage for all major components
+- **Professional Test Infrastructure**: Jest + Testing Library with TypeScript support
+- **Advanced Mocking System**: Comprehensive mocks for Next.js, React, and external dependencies
+- **Smart Console Filtering**: Intelligent error/warning suppression to reduce test noise
+- **Production-Ready Patterns**: Professional test patterns with proper cleanup and isolation
+- **Zero Linter Errors**: All tests pass ESLint with no warnings or errors
 
 ## 🤝 Contributing
 
